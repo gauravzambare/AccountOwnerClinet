@@ -8,6 +8,7 @@ import { OwnerCreateComponent } from './owner-create/owner-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OwnerUpdateComponent } from './owner-update/owner-update.component';
 import { OwnerDeleteComponent } from './owner-delete/owner-delete.component';
+import { AuthGuard } from '../shared/services/guards/auth-guard.service';
 
 @NgModule({
   declarations: [OwnerListComponent, OwnerDetailsComponent, OwnerCreateComponent, OwnerUpdateComponent, OwnerDeleteComponent],

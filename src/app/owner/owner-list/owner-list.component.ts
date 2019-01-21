@@ -3,6 +3,7 @@ import { RepositoryService } from './../../shared/services/repository.service';
 import { Owner } from './../../_interfaces/owner';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'app-owner-list',
@@ -13,7 +14,8 @@ export class OwnerListComponent implements OnInit {
   public owners: Owner[];
   public errorMessage: string = '';
 
-  constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService, private router: Router) { }
+  constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService, private router: Router
+    , private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.getAllOwners();
@@ -21,7 +23,7 @@ export class OwnerListComponent implements OnInit {
 
   public getAllOwners() {
     let apiAddress: string = "api/owner";
-    this.repository.getData(apiAddress)
+    this.repository.getData(apiAddress,this.authenticationService.currentUserValue.token)
       .subscribe(res => {
         this.owners = res as Owner[];
         console.log(res);
@@ -43,5 +45,9 @@ export class OwnerListComponent implements OnInit {
   public redirectToDeletePage(id) {
     let deleteUrl: string = `/owner/delete/${id}`;
     this.router.navigate([deleteUrl]);
+  }
+
+  public logout() {
+
   }
 }

@@ -1,5 +1,5 @@
 <div class="container container-fluid">
-  <div class="row">
+  <div class="row" *ngIf="this.authenticationService.currentUser | async as User">
     <app-menu></app-menu>
   </div>
   <div class="row">

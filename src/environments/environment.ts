@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  urlAddress: 'https://localhost:44357'
+  urlAddress: 'http://localhost:56103'
 };
 /*
  * For easier debugging in development mode, you can import the following file

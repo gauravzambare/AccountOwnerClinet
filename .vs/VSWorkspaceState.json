@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\menu",
+    "\\src\\app\\owner\\owner-create",
+    "\\src\\app\\owner\\owner-delete",
+    "\\src\\app\\owner\\owner-details",
+    "\\src\\app\\owner\\owner-list",
+    "\\src\\app\\shared",
+    "\\src\\app\\shared\\modals\\error-modal",
+    "\\src\\app\\shared\\services"
+  ],
+  "SelectedNode": "\\src\\app\\shared\\services\\authentication.service.ts",
+  "PreviewInSolutionExplorer": false
+}

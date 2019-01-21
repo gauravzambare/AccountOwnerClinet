@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Owner } from '../../_interfaces/owner';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 @Component({
   selector: 'app-owner-update',
   templateUrl: './owner-update.component.html',
@@ -17,7 +18,7 @@ export class OwnerUpdateComponent implements OnInit {
   public ownerForm: FormGroup;
 
   constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService, private router: Router,
-    private activeRoute: ActivatedRoute, private datePipe: DatePipe) { }
+    private activeRoute: ActivatedRoute, private datePipe: DatePipe, private authenticationService: AuthenticationService) { }
   ngOnInit() {
     this.ownerForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.maxLength(60)]),
@@ -33,7 +34,7 @@ export class OwnerUpdateComponent implements OnInit {
 
     let ownerByIdUrl: string = `api/owner/${ownerId}`;
 
-    this.repository.getData(ownerByIdUrl)
+    this.repository.getData(ownerByIdUrl, this.authenticationService.currentUserValue.token)
       .subscribe(res => {
         this.owner = res as Owner;
         this.ownerForm.patchValue(this.owner);
@@ -79,7 +80,7 @@ export class OwnerUpdateComponent implements OnInit {
     this.owner.address = ownerFormValue.address;
 
     let apiUrl = `api/owner/${this.owner.id}`;
-    this.repository.update(apiUrl, this.owner)
+    this.repository.update(apiUrl, this.owner, this.authenticationService.currentUserValue.token)
       .subscribe(res => {
         $('#successModal').modal();
       },

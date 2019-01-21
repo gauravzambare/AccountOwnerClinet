@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { OwnerForCreation } from '../../_interfaces/owner-for-creation';
 import { RepositoryService } from '../../shared/services/repository.service';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'app-owner-create',
@@ -15,7 +16,7 @@ export class OwnerCreateComponent implements OnInit {
 
   public ownerForm: FormGroup;
 
-  constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService, private router: Router) { }
+  constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService, private router: Router, private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
     this.ownerForm = new FormGroup({
@@ -55,9 +56,8 @@ export class OwnerCreateComponent implements OnInit {
       dateOfBirth: ownerFormValue.dateOfBirth,
       address: ownerFormValue.address
     }
-
     let apiUrl = 'api/owner';
-    this.repository.create(apiUrl, owner)
+    this.repository.create(apiUrl, owner, this.authenticationService.currentUserValue.token)
       .subscribe(res => {
         $('#successModal').modal();
       },

@@ -3,6 +3,7 @@ import { Owner } from '../../_interfaces/owner';
 import { RepositoryService } from '../../shared/services/repository.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorHandlerService } from '../../shared/services/error-handler.service';
+import { AuthenticationService } from '../../shared/services/authentication.service';
 
 @Component({
   selector: 'app-owner-delete',
@@ -14,7 +15,7 @@ export class OwnerDeleteComponent implements OnInit {
   public owner: Owner;
 
   constructor(private repository: RepositoryService, private errorHandler: ErrorHandlerService, private router: Router,
-    private activeRoute: ActivatedRoute) { }
+    private activeRoute: ActivatedRoute, private authenticationService: AuthenticationService) { }
   ngOnInit() {
     this.getOwnerById();
   }
@@ -23,7 +24,7 @@ export class OwnerDeleteComponent implements OnInit {
     let ownerId: string = this.activeRoute.snapshot.params['id'];
     let ownerByIdUrl: string = `api/owner/${ownerId}`;
 
-    this.repository.getData(ownerByIdUrl)
+    this.repository.getData(ownerByIdUrl, this.authenticationService.currentUserValue.token)
       .subscribe(res => {
         this.owner = res as Owner;
       },
@@ -38,7 +39,7 @@ export class OwnerDeleteComponent implements OnInit {
   }
   public deleteOwner() {
     let deleteUrl: string = `api/owner/${this.owner.id}`;
-    this.repository.delete(deleteUrl)
+    this.repository.delete(deleteUrl, this.authenticationService.currentUserValue.token)
       .subscribe(res => {
         $('#successModal').modal();
       },
